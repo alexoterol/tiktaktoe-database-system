@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" prefHeight="480.0" prefWidth="640.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.tiktaktoe.SecondaryController">
+    <children>
+        <Label text="Log In" />
+      <Label text="Name" />
+      <TextField fx:id="nameLogIn" />
+      <Label text="Password" />
+      <TextField fx:id="passwordLogIn" />
+      <HBox prefHeight="41.0" prefWidth="600.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#autenticityButton" text="Start" />
+            <Button mnemonicParsing="false" onAction="#switchToRegister" text="Register" />
+         </children>
+      </HBox>
+        <Button fx:id="secondaryButton" onAction="#backScreen" text="Back" />
+    </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+</VBox>
