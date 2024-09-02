@@ -10,18 +10,21 @@ package Classes;
  */
 public class Authentication {
     //DataBase
-    String name;
-    String password;
+    private String name;
+    private String password;
 
     public Authentication(String name, String password) {
         this.name = name;
         this.password = password;
     }
     
-    public boolean authenticateUser(){
-        // Search at database and return true if exist.
-        return true;
+    public Player authenticateUser(){
+        // Search at database and return player if exist.
+        int games = 0;
+        int gameWins = 0;
+        int rounds = 0;
+        int roundWins = 0;
+        int score = 0;
+        return new Player(name, games, gameWins, rounds, roundWins, score);// Player with atributes at database
     }
-    
-    
 }

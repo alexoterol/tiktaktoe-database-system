@@ -1,8 +1,8 @@
 package ec.edu.espol.tiktaktoe;
 
 import Classes.Authentication;
+import Classes.Player;
 import java.io.IOException;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -17,12 +17,12 @@ public class SecondaryController {
     private Button secondaryButton;
     
     private Authentication auth;
+    private static Player player;
 
     @FXML
     private void autenticityButton() throws IOException {
-        // Auth method creating auth class
         auth = new Authentication(nameLogIn.getText(), passwordLogIn.getText());
-        auth.authenticateUser();
+        player = auth.authenticateUser();
         App.setRoot("difficultySelecter");
     }
 
@@ -34,5 +34,9 @@ public class SecondaryController {
     @FXML
     private void backScreen() throws IOException {
         App.setRoot("primary");
+    }
+    
+    public static Player getPlayer(){
+        return player;
     }
 }

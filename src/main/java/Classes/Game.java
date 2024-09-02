@@ -12,6 +12,7 @@ import java.util.List;
  * @author alexo
  */
 public class Game {
+    private int[][] gridGame;
     private List<Round> rounds;
     private Player player_User;
     private Player player_Bot;
@@ -20,7 +21,8 @@ public class Game {
     private static Game instanceGame;
     
     private Game() {
-        
+        this.gridGame = new int[3][3];
+        this.rounds = new ArrayList<>();
     }
     
     public static Game getInstance(){
@@ -34,7 +36,29 @@ public class Game {
         return player_User;
     }
     
+    public void setPlayer(Player p){
+        this.player_User = p;
+    }
+    
     public void setBot(){
-        // Lógica para jugar con un bot específico
+        //  Complete method
+    }
+    public int[][] getGridGame(){
+        return this.gridGame;
+    }
+    
+    public void startNewRound() {
+        Round round = new Round(player_User, player_Bot);
+        rounds.add(round);
+    }
+    
+    public List<Round> getRounds() {
+        return rounds;
+    }
+    
+    public void resetGame() {
+        this.gridGame = new int[3][3];
+        this.rounds.clear();
+        this.numberRounds = 0;
     }
 }

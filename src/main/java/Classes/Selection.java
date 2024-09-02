@@ -8,8 +8,8 @@ package Classes;
  *
  * @author alexo
  */
-public class Selection {
-    private int x;
-    private int y;
-    
+public interface Selection {
+    public void makeSelection();
+    public int getX();
+    public int getY();
 }

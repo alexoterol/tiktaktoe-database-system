@@ -6,6 +6,9 @@ package ec.edu.espol.tiktaktoe;
 
 import Classes.Game;
 import Classes.Player;
+import Classes.aiSelection;
+import Classes.botHardSelection;
+import Classes.botSelection;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -44,32 +47,32 @@ public class DifficultySelecterController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        user = Game.getInstance().getPlayer();
-        userName.setText(user.getName()+"");
+        user = SecondaryController.getPlayer();
+        Game.getInstance().setPlayer(user);
+        userName.setText(user.getName());
         playedGames.setText(user.getGames()+"");
         winGames.setText(user.getGameWins()+"");
         numberRoundsUser.setText(user.getRounds()+"");
         roundsWon.setText(user.getRoundWins()+"");
         sumScore.setText(user.getScore()+"");
-        // TODO
     }    
 
     @FXML
     private void selectNormalDiff() throws IOException {
-        // Set bot with random behavior
+        Game.getInstance().setBot();
         App.setRoot("GameScreen");
     }
 
     @FXML
     private void selectHardDiff() throws IOException {
-        // set bot with pre-fixed movements and then random behaviors
+        Game.getInstance().setBot();
         App.setRoot("GameScreen");
         
     }
 
     @FXML
     private void selectIADiff() throws IOException {
-        // set bot IA trained
+        Game.getInstance().setBot();
         App.setRoot("GameScreen");
     }
 
@@ -84,5 +87,4 @@ public class DifficultySelecterController implements Initializable {
         if(Integer.parseInt(numberRounds.getText()) < 25)
         numberRounds.setText(Integer.parseInt(numberRounds.getText()) + 2 + ""); 
     }
-    
 }

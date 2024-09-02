@@ -10,8 +10,8 @@ package Classes;
  */
 public class Register {
     // Database
-    String name;
-    String password;
+    private String name;
+    private String password;
 
     public Register(String name, String password) {
         this.name = name;
