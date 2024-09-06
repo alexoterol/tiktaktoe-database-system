@@ -4,17 +4,20 @@
  */
 package Classes;
 
+import Classes.Selection.Selection;
+
 /**
  *
  * @author alexo
  */
-public class Player{
+public class  Player{
     private String name;
     private int games;
     private int gameWins;
     private int rounds;
     private int roundWins;
     private int score;
+    private Selection selection;
 
     public Player(String name, int games, int gameWins, int rounds, int roundWins, int score) {
         this.name = name;
@@ -25,6 +28,10 @@ public class Player{
         this.score = score;
     }
     
+    public void setStrategy(Selection selection){
+        this.selection = selection;
+    }
+
     public String getName() {
         return name;
     }
@@ -65,6 +72,14 @@ public class Player{
         this.roundWins = roundWins + 1;
     }
 
+    public Selection getSelection() {
+        return selection;
+    }
+    
+    public void setSelection(Selection selection) {
+        this.selection = selection;
+    }
+    
     public void addScore() {
         // It depends
     }

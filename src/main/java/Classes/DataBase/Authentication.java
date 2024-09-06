@@ -2,7 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Classes;
+package Classes.DataBase;
+
+import Classes.Player;
 
 /**
  *
@@ -20,6 +22,7 @@ public class Authentication {
     
     public Player authenticateUser(){
         // Search at database and return player if exist.
+        
         int games = 0;
         int gameWins = 0;
         int rounds = 0;

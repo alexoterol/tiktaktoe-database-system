@@ -1,6 +1,6 @@
 package ec.edu.espol.tiktaktoe;
 
-import Classes.Authentication;
+import Classes.DataBase.Authentication;
 import Classes.Player;
 import java.io.IOException;
 import javafx.fxml.FXML;

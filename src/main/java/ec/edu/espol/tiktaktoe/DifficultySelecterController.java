@@ -6,9 +6,9 @@ package ec.edu.espol.tiktaktoe;
 
 import Classes.Game;
 import Classes.Player;
-import Classes.aiSelection;
-import Classes.botHardSelection;
-import Classes.botSelection;
+import Classes.Selection.BotSelection;
+import Classes.Selection.HardSelection;
+import Classes.Selection.IASelection;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -59,20 +59,23 @@ public class DifficultySelecterController implements Initializable {
 
     @FXML
     private void selectNormalDiff() throws IOException {
-        Game.getInstance().setBot();
+
+
         App.setRoot("GameScreen");
     }
 
     @FXML
     private void selectHardDiff() throws IOException {
-        Game.getInstance().setBot();
+        Game.getInstance().setBot(new HardSelection(0,0));
+        Game.getInstance().setNumberRounds(Integer.parseInt(numberRounds.getText()));
         App.setRoot("GameScreen");
         
     }
 
     @FXML
     private void selectIADiff() throws IOException {
-        Game.getInstance().setBot();
+        Game.getInstance().setBot(new IASelection(0,0));
+        Game.getInstance().setNumberRounds(Integer.parseInt(numberRounds.getText()));
         App.setRoot("GameScreen");
     }
 
@@ -83,7 +86,7 @@ public class DifficultySelecterController implements Initializable {
     }
 
     @FXML
-    private void plusRounds(ActionEvent event) {
+    private void plusRounds() {
         if(Integer.parseInt(numberRounds.getText()) < 25)
         numberRounds.setText(Integer.parseInt(numberRounds.getText()) + 2 + ""); 
     }

@@ -3,5 +3,19 @@
  */
 
 .mainFxmlClass {
+    -fx-font-family: sans-serif;
+    -fx-font-size: 20px;
+    -fx-background-color: #8a7;
+}
 
+.TextField{
+    -fx-border-color: grey;
+    -fx-border width: 0 0 1 0; 
+    -fx-background-color: transparent;
+}
+.Button{
+    -fx-border: none; 
+    -fx-color: black;  
+    cursor: pointer; 
+    -fx-border-radius: 6px; 
 }

@@ -4,7 +4,7 @@
  */
 package ec.edu.espol.tiktaktoe;
 
-import Classes.Register;
+import Classes.DataBase.Register;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;

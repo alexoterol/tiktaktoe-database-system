@@ -1,0 +1,63 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Sep 5, 2024, 12:24:16 PM
+    Author     : alexo
+*/
+
+.Body{
+    -fx-font-family: sans-serif;
+    -fx-font-size: 20px;
+    -fx-background-color: #8a7;
+}
+
+.TextField{
+    -fx-border-color: grey;
+    -fx-border width: 0 0 1 0; 
+    -fx-background-color: transparent;
+}
+
+.TextField:focused {
+    -fx-background-color: -fx-focus-color, -fx-background ;
+}
+
+
+.Button {
+  -fx-background-color: #65c598;
+  -fx-border: 1px solid rgba(27, 31, 35, .15);
+  -fx-border-radius: 6px;
+  -fx-box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
+  -fx-box-sizing: border-box;
+  -fx-color: #fff;
+  -fx-display: inline-block;
+  -fx-font-weight: 600;
+  -fx-line-height: 20px;
+  -fx-padding: 8px 18px;
+  -fx-position: relative;
+  -fx-text-align: center;
+  -fx-text-decoration: none;
+  -fx-user-select: none;
+  -fx--webkit-user-select: none;
+  -fx-touch-action: manipulation;
+  -fx-vertical-align: middle;
+  -fx-white-space: nowrap;
+}
+
+.Button:hover {
+  -fx-background-color: #2c974b;
+}
+
+
+.Start{
+    
+}
+
+.Exit{
+    
+}
+
+.Button_back{
+    
+}

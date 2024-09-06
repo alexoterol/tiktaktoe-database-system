@@ -4,6 +4,7 @@
  */
 package Classes;
 
+import Classes.Selection.Selection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class Game {
     private int[][] gridGame;
     private List<Round> rounds;
     private Player player_User;
-    private Player player_Bot;
+    private Player player_Bot = new Player("Bot", 0,0,0,0,0);
     private int numberRounds;
     
     private static Game instanceGame;
@@ -40,9 +41,10 @@ public class Game {
         this.player_User = p;
     }
     
-    public void setBot(){
-        //  Complete method
+    public void setBot(Selection s){
+        player_Bot.setStrategy(s);
     }
+    
     public int[][] getGridGame(){
         return this.gridGame;
     }
@@ -52,13 +54,23 @@ public class Game {
         rounds.add(round);
     }
     
-    public List<Round> getRounds() {
+    public List<Round> getRounds() {  // ENCAPTULATE COLLECTION
         return rounds;
     }
-    
+
     public void resetGame() {
         this.gridGame = new int[3][3];
         this.rounds.clear();
         this.numberRounds = 0;
     }
+
+    public int getNumberRounds() {
+        return numberRounds;
+    }
+
+    public void setNumberRounds(int numberRounds) {
+        this.numberRounds = numberRounds;
+    }
+    
+    
 }

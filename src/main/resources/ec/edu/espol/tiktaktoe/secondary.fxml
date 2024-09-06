@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -7,20 +8,58 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="480.0" prefWidth="640.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.tiktaktoe.SecondaryController">
+<VBox alignment="CENTER" prefHeight="480.0" prefWidth="640.0" spacing="20.0" styleClass="Body" stylesheets="@../../../../styles/SecondarySession.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.tiktaktoe.SecondaryController">
     <children>
-        <Label text="Log In" />
-      <Label text="Name" />
-      <TextField fx:id="nameLogIn" />
-      <Label text="Password" />
-      <TextField fx:id="passwordLogIn" />
-      <HBox prefHeight="41.0" prefWidth="600.0">
+        <Label stylesheets="@../../../../styles/SecondarySession.css" text="Log In">
+         <styleClass>
+            <String fx:value="Label" />
+            <String fx:value="LogIn" />
+         </styleClass></Label>
+      <Label stylesheets="@../../../../styles/SecondarySession.css" text="Name">
+         <styleClass>
+            <String fx:value="Label" />
+            <String fx:value="Name" />
+         </styleClass></Label>
+      <TextField fx:id="nameLogIn" stylesheets="@../../../../styles/SecondarySession.css">
+         <styleClass>
+            <String fx:value="TextField" />
+            <String fx:value="TextField__Username" />
+         </styleClass></TextField>
+      <Label stylesheets="@../../../../styles/SecondarySession.css" text="Password">
+         <styleClass>
+            <String fx:value="Label" />
+            <String fx:value="Password" />
+         </styleClass></Label>
+      <TextField fx:id="passwordLogIn" stylesheets="@../../../../styles/SecondarySession.css">
+         <styleClass>
+            <String fx:value="TextField" />
+            <String fx:value="TextField__Password" />
+         </styleClass></TextField>
+      <HBox alignment="TOP_CENTER" prefHeight="41.0" prefWidth="600.0" stylesheets="@../../../../styles/SecondarySession.css">
          <children>
-            <Button mnemonicParsing="false" onAction="#autenticityButton" text="Start" />
-            <Button mnemonicParsing="false" onAction="#switchToRegister" text="Register" />
+            <Button mnemonicParsing="false" onAction="#autenticityButton" stylesheets="@../../../../styles/SecondarySession.css" text="Start">
+               <styleClass>
+                  <String fx:value="Button" />
+                  <String fx:value="Button_Start" />
+               </styleClass>
+               <HBox.margin>
+                  <Insets right="100.0" />
+               </HBox.margin></Button>
+            <Button mnemonicParsing="false" onAction="#switchToRegister" stylesheets="@../../../../styles/SecondarySession.css" text="Register">
+               <styleClass>
+                  <String fx:value="Button" />
+                  <String fx:value="Button_Register" />
+               </styleClass></Button>
          </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
       </HBox>
-        <Button fx:id="secondaryButton" onAction="#backScreen" text="Back" />
+        <Button fx:id="secondaryButton" onAction="#backScreen" stylesheets="@../../../../styles/SecondarySession.css" text="Back">
+         <styleClass>
+            <String fx:value="Button" />
+            <String fx:value="Button_Back" />
+         </styleClass></Button>
     </children>
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
