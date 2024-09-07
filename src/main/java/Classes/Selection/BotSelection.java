@@ -17,6 +17,7 @@ public class BotSelection extends Selection{
         super(x, y);
     }
     
+    @Override
     public void makeSelection(){
         int[][] grid = Game.getInstance().getGridGame();
         Random rand = new Random();

@@ -12,6 +12,10 @@ public abstract class Selection {
     protected int x;
     protected int y;
 
+    public void makeSelection(){
+        
+    }
+    
     public Selection(int x, int y) {
         this.x = x;
         this.y = y;

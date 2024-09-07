@@ -13,5 +13,10 @@ public class UserSelection extends Selection{
     public UserSelection(int x, int y) {
         super(x, y);
     }
+
+    @Override
+    public void makeSelection() {
+        super.makeSelection(); 
+    }
     
 }

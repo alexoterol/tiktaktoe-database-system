@@ -59,8 +59,8 @@ public class DifficultySelecterController implements Initializable {
 
     @FXML
     private void selectNormalDiff() throws IOException {
-
-
+        Game.getInstance().setBot(new BotSelection(0,0));
+        Game.getInstance().setNumberRounds(Integer.parseInt(numberRounds.getText()));
         App.setRoot("GameScreen");
     }
 

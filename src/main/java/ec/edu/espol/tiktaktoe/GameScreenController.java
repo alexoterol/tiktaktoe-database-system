@@ -36,120 +36,74 @@ public class GameScreenController implements Initializable {
     private Label botRoundsWon;
     @FXML
     private GridPane gridGame;
-    @FXML
-    private Button btn00;
-    @FXML
-    private Button btn01;
-    @FXML
-    private Button btn02;
-    @FXML
-    private Button btn10;
-    @FXML
-    private Button btn11;
-    @FXML
-    private Button btn12;
-    @FXML
-    private Button btn20;
-    @FXML
-    private Button btn21;
-    @FXML
-    private Button btn22;
-    
     private Game game;
     private Round currentRound;
+    Button[][] buttons = new Button[3][3];
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         game = Game.getInstance();
         startNewRound();
         userName.setText(game.getPlayer().getName());
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
+                Button button = new Button();
+                button.setMinSize(120, 80); // Ajusta el tamaño de los botones
+                gridGame.add(button, col, row);
+                buttons[row][col] = button;
+                // Añadir eventos a los botones
+                int finalRow = row;
+                int finalCol = col;
+                button.setOnAction(e -> handleButtonClick(finalRow, finalCol));
+            }
+        }
         Platform.runLater(() -> {
             for(int i = 0 ; i < game.getNumberRounds() ; i++){
                 game.startNewRound();
                 startNewRound();
-                game.getRounds().get(game.getRounds().size()-1).startRound();
+                currentRound.startRound();
+                if(!game.getRounds().get(game.getRounds().size()-1).isPlayerTurn()){
+                    buttons[currentRound.getPlayer_Bot().getSelection().getY()][currentRound.getPlayer_Bot().getSelection().getX()].setText("O");
+                    currentRound.switchPlayer();
+                }
             }
         });
     }
+    
+    private void handleButtonClick(int row, int col) {
+        if (buttons[row][col].getText().isEmpty() || buttons[row][col].getText().equals("") ) {
+            currentRound.makeMove(row, col, 1);
+            buttons[row][col].setText(currentRound.isPlayerTurn() ? "X" : "O");
+            currentRound.printGrid();
+            if (currentRound.checkDraw()){
+                if(game.getRoundNum()<game.getNumberRounds()){
+                    game.startNewRound();
+                    clearGrid();                    
+                }
+            }
+            if (currentRound.checkWinner()) {
+                System.out.println(currentRound.isPlayerTurn()  ? "Jugador gana!" : "Bot gana!");
+                if(game.getRoundNum()<game.getNumberRounds()){
+                    game.startNewRound();
+                    clearGrid();                    
+                }
+                
+            } else {
+                currentRound.switchPlayer(); // Cambiar turno
+                if (!currentRound.isPlayerTurn()) {
+                    currentRound.getPlayer_Bot().getSelection().makeSelection();
+                    currentRound.makeMove(currentRound.getPlayer_Bot().getSelection().getY(), currentRound.getPlayer_Bot().getSelection().getY(), 2);
+                    buttons[currentRound.getPlayer_Bot().getSelection().getY()][currentRound.getPlayer_Bot().getSelection().getX()].setText("O");
+                    currentRound.switchPlayer();
+                }
+            }
+        }
+    }
 
-
-    // Iniciar nueva ronda y actualizar la vista
     private void startNewRound() {
         game.startNewRound();
         currentRound = game.getRounds().get(game.getRounds().size() - 1);
         clearGrid();
-        
-    }
-
-    @FXML
-    private void btn00(ActionEvent event) {
-        playerMove(0, 0, btn00);
-    }
-
-    @FXML
-    private void btn01(ActionEvent event) {
-        playerMove(0, 1, btn01);
-    }
-
-    @FXML
-    private void btn02(ActionEvent event) {
-        playerMove(0, 2, btn02);
-    }
-
-    @FXML
-    private void btn10(ActionEvent event) {
-        playerMove(1, 0, btn10);
-    }
-
-    @FXML
-    private void btn11(ActionEvent event) {
-        playerMove(1, 1, btn11);
-    }
-
-    @FXML
-    private void btn12(ActionEvent event) {
-        playerMove(1, 2, btn12);
-    }
-
-    @FXML
-    private void btn20(ActionEvent event) {
-        playerMove(2, 0, btn20);
-    }
-
-    @FXML
-    private void btn21(ActionEvent event) {
-        playerMove(2, 1, btn21);
-    }
-
-    @FXML
-    private void btn22(ActionEvent event) {
-        playerMove(2, 2, btn22);
-    }
-
-    private void playerMove(int row, int col, Button btn) {
-        Selection userSelection = new UserSelection(row, col);
-        game.getPlayer().setSelection(userSelection);
-//        currentRound.playMove(game.getPlayer());
-        btn.setText("X");
-        updateBotMove();
-    }
-
-    private void updateBotMove() {
-//        currentRound.playMove(game.getPlayer_Bot());
-//        Selection botSelection = game.getPlayer_Bot().getSelection();
-//        Platform.runLater(() -> modifyButtonText(gridGame, botSelection.getY(), botSelection.getX(), "O"));
-    }
-
-    private void modifyButtonText(GridPane gridPane, int row, int col, String newText) {
-//        gridPane.getChildren().forEach(node -> {
-//            Integer nodeRow = GridPane.getRowIndex(node);
-//            Integer nodeCol = GridPane.getColumnIndex(node);
-//            if (nodeRow != null && nodeCol != null && nodeRow == row && nodeCol == col) {
-//                if (node instanceof Button) {
-//                    ((Button) node).setText(newText);
-//                }
-//            }
-//        });
     }
 
     private void clearGrid() {
@@ -164,20 +118,9 @@ public class GameScreenController implements Initializable {
     private void backScreen() throws IOException {
         App.setRoot("Primary");
     }
-    
+
     @FXML
     private void spaceSelected(MouseEvent event) {
-//        Node clickedNode = (Node) event.getSource();
-//        Integer row = GridPane.getRowIndex(clickedNode);
-//        Integer col = GridPane.getColumnIndex(clickedNode);
-//
-//        if (row != null && col != null) {
-//            // Lógica para manejar la selección del espacio
-//            game.getPlayer().setSelection(new userSelection(row, col));
-//            currentRound.playMove(game.getPlayer());
-//            modifyButtonText(gridGame, row, col, "O");
-//
-//            // Mueve el bot después del jugador
-//            updateBotMove();}
     }
+
 }

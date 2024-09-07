@@ -17,7 +17,7 @@ public class Round {
     private Player currentPlayer;
     private Player player_User;
     private Player player_Bot;
-
+    
     public Round(Player player_User, Player player_Bot) {
         this.gridGame = Game.getInstance().getGridGame();
         this.player_User = player_User;
@@ -57,7 +57,6 @@ public class Round {
         }
         return true;
     }
-    
     public void printGrid() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -71,106 +70,20 @@ public class Round {
             }
             System.out.println();
         }
-    }
-    
-    
-    public void botMove() {
-        player_Bot.getSelection();
-        Random rand = new Random();
-        boolean validMove = false;
-        while (!validMove) {
-            int x = rand.nextInt(3);
-            int y = rand.nextInt(3);
-            if (gridGame[x][y] == 0) {
-                makeMove(x, y, 2); // Bot es el jugador 2
-                validMove = true;
-            }
-        }
-    }
+    }    
+
     public void startRound() {
-        Scanner scanner = new Scanner(System.in);
-        boolean gameRunning = true;
-
-        while (gameRunning) {
-            printGrid();
-            if (currentPlayer == player_User) {
-                // Turno del jugador
-                System.out.println("Jugador (X), elige fila y columna (0, 1, 2): ");
-                
-                int x = scanner.nextInt();
-                int y = scanner.nextInt();
-
-                if (makeMove(x, y, 1)) {
-                    if (checkWinner()) {
-                        printGrid();
-                        System.out.println("¡El jugador gana!");
-                        gameRunning = false;
-                    } else if (checkDraw()) {
-                        printGrid();
-                        System.out.println("¡Es un empate!");
-                        gameRunning = false;
-                    } else {
-                        switchPlayer();
-                    }
-                } else {
-                    System.out.println("Movimiento inválido. Inténtalo de nuevo.");
-                }
-            } else {
-                // Turno del bot
-                System.out.println("Turno del bot (O): ");
-                botMove();
-                if (checkWinner()) {
-                    printGrid();
-                    System.out.println("¡El bot gana!");
-                    gameRunning = false;
-                } else if (checkDraw()) {
-                    printGrid();
-                    System.out.println("¡Es un empate!");
-                    gameRunning = false;
-                } else {
-                    switchPlayer();
-                }
-            }
+        if(!isPlayerTurn()){
+            player_Bot.getSelection().makeSelection();
+            makeMove(player_Bot.getSelection().getY(), player_Bot.getSelection().getX(), 2);
         }
-
-        scanner.close();
+        printGrid();
     }
-    
-    
-    
+
+    public Player getPlayer_Bot() {
+        return player_Bot;
+    }
+    public boolean isPlayerTurn(){
+        return currentPlayer == player_User;
+    }
 }
-//    private void makeBotMove() {
-//    if (currentPlayer == player_Bot) {
-//        boolean validMove = false;
-//        while (!validMove) {
-//            player_Bot.getSelection().makeSelection(); 
-//            Selection botSelection = player_Bot.getSelection();
-//
-//            if (gridGame[botSelection.getY()][botSelection.getX()] == 0) {
-//                playMove(player_Bot); 
-//                validMove = true;
-//                System.out.println("Bot made a move.");
-//            }
-//        }
-//    }
-//}
-//    private void switchPlayer() {
-//        currentPlayer = (currentPlayer == player_User) ? player_Bot : player_User;
-//    }
-//    private boolean checkWinner() {
-//        for (int i = 0; i < 3; i++) {
-//            if (gridGame[i][0] == gridGame[i][1] && gridGame[i][1] == gridGame[i][2] && gridGame[i][0] != 0) return true;
-//            if (gridGame[0][i] == gridGame[1][i] && gridGame[1][i] == gridGame[2][i] && gridGame[0][i] != 0) return true;
-//        }
-//        if (gridGame[0][0] == gridGame[1][1] && gridGame[1][1] == gridGame[2][2] && gridGame[0][0] != 0) return true;
-//        if (gridGame[0][2] == gridGame[1][1] && gridGame[1][1] == gridGame[2][0] && gridGame[0][2] != 0) return true;
-//        return false;
-//    }
-//    private boolean checkDraw() {
-//        for (int i = 0; i < 3; i++) {
-//            for (int j = 0; j < 3; j++) {
-//                if (gridGame[i][j] == 0) return false; 
-//            }
-//        }
-//        return true;  
-//    }

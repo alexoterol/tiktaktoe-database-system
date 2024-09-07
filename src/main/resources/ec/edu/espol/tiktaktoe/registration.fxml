@@ -12,18 +12,18 @@
    <children>
       <VBox alignment="CENTER" layoutX="32.0" layoutY="14.0" prefHeight="368.0" prefWidth="542.0" stylesheets="@../../../../styles/registration.css">
          <children>
-            <Label alignment="CENTER" stylesheets="@../../../../styles/registration.css" text="Register new User" />
+            <Label id="regNew" alignment="CENTER" stylesheets="@../../../../styles/registration.css" text="Register new User" />
             <Label stylesheets="@../../../../styles/registration.css" text="Name" />
             <TextField fx:id="nameNewUser" styleClass="TextField" stylesheets="@../../../../styles/registration.css" />
             <Label stylesheets="@../../../../styles/registration.css" text="Password" />
             <TextField fx:id="passwrdNewUser" styleClass="TextField" stylesheets="@../../../../styles/registration.css" />
-            <HBox alignment="TOP_CENTER" prefHeight="198.0" prefWidth="571.0" stylesheets="@../../../../styles/registration.css">
+            <HBox alignment="CENTER" prefHeight="81.0" prefWidth="542.0" styleClass="button-container" stylesheets="@../../../../styles/registration.css">
                <children>
                   <Button mnemonicParsing="false" onAction="#switchToLogIn" styleClass="Button" stylesheets="@../../../../styles/registration.css" text="Register">
                      <HBox.margin>
                         <Insets right="100.0" />
                      </HBox.margin></Button>
-                  <Button mnemonicParsing="false" onAction="#exitButton" styleClass="Button" stylesheets="@../../../../styles/registration.css" text="Exit" />
+                  <Button id="exitButton" mnemonicParsing="false" onAction="#exitButton" styleClass="Button" stylesheets="@../../../../styles/registration.css" text="Exit" />
                </children>
             </HBox>
          </children>

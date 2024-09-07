@@ -18,6 +18,7 @@ public class Game {
     private Player player_User;
     private Player player_Bot = new Player("Bot", 0,0,0,0,0);
     private int numberRounds;
+    private int roundNum;
     
     private static Game instanceGame;
     
@@ -52,6 +53,7 @@ public class Game {
     public void startNewRound() {
         Round round = new Round(player_User, player_Bot);
         rounds.add(round);
+        this.gridGame = new int[3][3];
     }
     
     public List<Round> getRounds() {  // ENCAPTULATE COLLECTION
@@ -70,6 +72,10 @@ public class Game {
 
     public void setNumberRounds(int numberRounds) {
         this.numberRounds = numberRounds;
+    }
+
+    public int getRoundNum() {
+        return roundNum;
     }
     
     
