@@ -43,60 +43,58 @@ public class GameScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         game = Game.getInstance();
+        game.startNewRound();
         startNewRound();
         userName.setText(game.getPlayer().getName());
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
                 Button button = new Button();
-                button.setMinSize(120, 80); // Ajusta el tamaño de los botones
+                button.setMinSize(120, 80);
                 gridGame.add(button, col, row);
                 buttons[row][col] = button;
-                // Añadir eventos a los botones
                 int finalRow = row;
                 int finalCol = col;
-                button.setOnAction(e -> handleButtonClick(finalRow, finalCol));
+                button.setOnAction(e -> {
+                    try {
+                        handleButtonClick(finalRow, finalCol);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                });
             }
         }
         Platform.runLater(() -> {
-            for(int i = 0 ; i < game.getNumberRounds() ; i++){
-                game.startNewRound();
-                startNewRound();
-                currentRound.startRound();
-                if(!game.getRounds().get(game.getRounds().size()-1).isPlayerTurn()){
-                    buttons[currentRound.getPlayer_Bot().getSelection().getY()][currentRound.getPlayer_Bot().getSelection().getX()].setText("O");
-                    currentRound.switchPlayer();
-                }
+            currentRound.startRound();
+            if(!game.getRounds().get(game.getRounds().size()-1).isPlayerTurn()){
+                buttons[currentBotSelectionY()][currentBotSelectionX()].setText("O");
+                currentRound.switchPlayer();
             }
         });
+       
     }
     
-    private void handleButtonClick(int row, int col) {
+    private void handleButtonClick(int row, int col) throws IOException {
         if (buttons[row][col].getText().isEmpty() || buttons[row][col].getText().equals("") ) {
             currentRound.makeMove(row, col, 1);
-            buttons[row][col].setText(currentRound.isPlayerTurn() ? "X" : "O");
+            buttons[row][col].setText("X");
             currentRound.printGrid();
-            if (currentRound.checkDraw()){
-                if(game.getRoundNum()<game.getNumberRounds()){
-                    game.startNewRound();
-                    clearGrid();                    
-                }
-            }
-            if (currentRound.checkWinner()) {
-                System.out.println(currentRound.isPlayerTurn()  ? "Jugador gana!" : "Bot gana!");
-                if(game.getRoundNum()<game.getNumberRounds()){
-                    game.startNewRound();
-                    clearGrid();                    
-                }
+            
+            validateRoundDraw();
+            validateWinnerRound();
+            
+            currentRound.switchPlayer();
+            
+            currentRound.getPlayer_Bot().getSelection().makeSelection();
+            currentRound.makeMove(currentBotSelectionY(), currentBotSelectionX(), 2);
+            buttons[currentBotSelectionY()][currentBotSelectionX()].setText("O");
+            currentRound.printGrid();
+            
+            validateRoundDraw();
+            validateWinnerRound();
+
+            
+            currentRound.switchPlayer();
                 
-            } else {
-                currentRound.switchPlayer(); // Cambiar turno
-                if (!currentRound.isPlayerTurn()) {
-                    currentRound.getPlayer_Bot().getSelection().makeSelection();
-                    currentRound.makeMove(currentRound.getPlayer_Bot().getSelection().getY(), currentRound.getPlayer_Bot().getSelection().getY(), 2);
-                    buttons[currentRound.getPlayer_Bot().getSelection().getY()][currentRound.getPlayer_Bot().getSelection().getX()].setText("O");
-                    currentRound.switchPlayer();
-                }
-            }
         }
     }
 
@@ -118,9 +116,48 @@ public class GameScreenController implements Initializable {
     private void backScreen() throws IOException {
         App.setRoot("Primary");
     }
+    
+    @FXML
+    private void nextScreen() throws IOException {
+        App.setRoot("FinalScreen");
+    }
 
     @FXML
     private void spaceSelected(MouseEvent event) {
     }
 
+    private void validateRoundDraw() throws IOException{
+        if (currentRound.checkDraw()){
+            if(game.getRoundNum()<game.getNumberRounds()){
+                game.startNewRound();
+                currentRound = game.getRounds().get(game.getRounds().size()-1);
+                clearGrid();
+            }else{
+                nextScreen();
+                System.out.println("Empataron");
+            }
+        }
+    }
+    
+    private void validateWinnerRound() throws IOException{
+        if (currentRound.checkWinner()) {
+            System.out.println(currentRound.isPlayerTurn()  ? "Jugador gana!" : "Bot gana!");
+            if(game.getRoundNum()<game.getNumberRounds()){
+                game.startNewRound();
+                currentRound = game.getRounds().get(game.getRounds().size()-1);
+                clearGrid();                    
+            }else{
+                nextScreen();
+                System.out.println("Ganaron");
+            }
+        }
+    }
+    
+    private int currentBotSelectionY(){
+        return currentRound.getPlayer_Bot().getSelection().getY();
+    }
+    
+    private int currentBotSelectionX(){
+        return currentRound.getPlayer_Bot().getSelection().getX();
+    }
 }

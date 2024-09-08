@@ -53,6 +53,7 @@ public class Game {
     public void startNewRound() {
         Round round = new Round(player_User, player_Bot);
         rounds.add(round);
+        roundNum += 1;
         this.gridGame = new int[3][3];
     }
     
@@ -64,6 +65,7 @@ public class Game {
         this.gridGame = new int[3][3];
         this.rounds.clear();
         this.numberRounds = 0;
+        this.roundNum = 1;
     }
 
     public int getNumberRounds() {
