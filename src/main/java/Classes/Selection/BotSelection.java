@@ -27,7 +27,7 @@ public class BotSelection extends Selection{
             x = rand.nextInt(3);
             y = rand.nextInt(3);
 
-            if (grid[x][y] == 0) {
+            if (grid[y][x] == 0) {
                 validMove = true;
             }
         }

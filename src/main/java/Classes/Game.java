@@ -16,15 +16,15 @@ public class Game {
     private int[][] gridGame;
     private List<Round> rounds;
     private Player player_User;
-    private Player player_Bot = new Player("Bot", 0,0,0,0,0);
+    private Player player_Bot;
     private int numberRounds;
     private int roundNum;
     
     private static Game instanceGame;
     
     private Game() {
-        this.gridGame = new int[3][3];
         this.rounds = new ArrayList<>();
+        this.player_Bot = new Player("Bot", 0,0,0,0,0);
     }
     
     public static Game getInstance(){
@@ -60,7 +60,7 @@ public class Game {
     public List<Round> getRounds() {  // ENCAPTULATE COLLECTION
         return rounds;
     }
-
+    
     public void resetGame() {
         this.gridGame = new int[3][3];
         this.rounds.clear();

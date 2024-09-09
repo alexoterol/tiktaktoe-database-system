@@ -13,21 +13,19 @@ import javafx.application.Platform;
  * @author alexo
  */
 public class Round {
-    private int[][] gridGame;
     private Player currentPlayer;
     private Player player_User;
     private Player player_Bot;
     
     public Round(Player player_User, Player player_Bot) {
-        this.gridGame = Game.getInstance().getGridGame();
         this.player_User = player_User;
         this.player_Bot = player_Bot;
         this.currentPlayer = new Random().nextBoolean() ? player_User : player_Bot;
         }
     
     public boolean makeMove(int x, int y, int player) {
-        if (gridGame[x][y] == 0) {
-            gridGame[x][y] = player;
+        if (Game.getInstance().getGridGame()[x][y] == 0) {
+            Game.getInstance().getGridGame()[x][y] = player;
             return true;
         }
         return false;
@@ -38,13 +36,13 @@ public class Round {
     }
     public boolean checkWinner() {
         for (int i = 0; i < 3; i++) {
-            if ((gridGame[i][0] == gridGame[i][1] && gridGame[i][1] == gridGame[i][2] && gridGame[i][0] != 0) ||
-                (gridGame[0][i] == gridGame[1][i] && gridGame[1][i] == gridGame[2][i] && gridGame[0][i] != 0)) {
+            if ((Game.getInstance().getGridGame()[i][0] == Game.getInstance().getGridGame()[i][1] && Game.getInstance().getGridGame()[i][1] == Game.getInstance().getGridGame()[i][2] && Game.getInstance().getGridGame()[i][0] != 0) ||
+                (Game.getInstance().getGridGame()[0][i] == Game.getInstance().getGridGame()[1][i] && Game.getInstance().getGridGame()[1][i] == Game.getInstance().getGridGame()[2][i] && Game.getInstance().getGridGame()[0][i] != 0)) {
                 return true;
             }
         }
-        if ((gridGame[0][0] == gridGame[1][1] && gridGame[1][1] == gridGame[2][2] && gridGame[0][0] != 0) ||
-            (gridGame[0][2] == gridGame[1][1] && gridGame[1][1] == gridGame[2][0] && gridGame[0][2] != 0)) {
+        if ((Game.getInstance().getGridGame()[0][0] == Game.getInstance().getGridGame()[1][1] && Game.getInstance().getGridGame()[1][1] == Game.getInstance().getGridGame()[2][2] && Game.getInstance().getGridGame()[0][0] != 0) ||
+            (Game.getInstance().getGridGame()[0][2] == Game.getInstance().getGridGame()[1][1] && Game.getInstance().getGridGame()[1][1] == Game.getInstance().getGridGame()[2][0] && Game.getInstance().getGridGame()[0][2] != 0)) {
             return true;
         }
         return false;
@@ -52,7 +50,7 @@ public class Round {
     public boolean checkDraw() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (gridGame[i][j] == 0) return false;
+                if (Game.getInstance().getGridGame()[i][j] == 0) return false;
             }
         }
         return true;
@@ -60,9 +58,9 @@ public class Round {
     public void printGrid() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (gridGame[i][j] == 0) {
+                if (Game.getInstance().getGridGame()[i][j] == 0) {
                     System.out.print("- ");
-                } else if (gridGame[i][j] == 1) {
+                } else if (Game.getInstance().getGridGame()[i][j] == 1) {
                     System.out.print("X ");
                 } else {
                     System.out.print("O ");

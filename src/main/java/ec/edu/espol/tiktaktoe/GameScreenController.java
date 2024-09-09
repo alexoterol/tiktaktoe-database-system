@@ -6,13 +6,10 @@ package ec.edu.espol.tiktaktoe;
 
 import Classes.Game;
 import Classes.Round;
-import Classes.Selection.Selection;
-import Classes.Selection.UserSelection;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -46,6 +43,8 @@ public class GameScreenController implements Initializable {
         game.startNewRound();
         startNewRound();
         userName.setText(game.getPlayer().getName());
+        userRoundsWon.setText(0+"");
+        botRoundsWon.setText(0+"");
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
                 Button button = new Button();
@@ -65,12 +64,11 @@ public class GameScreenController implements Initializable {
         }
         Platform.runLater(() -> {
             currentRound.startRound();
-            if(!game.getRounds().get(game.getRounds().size()-1).isPlayerTurn()){
+            if(!currentRound.isPlayerTurn()){
                 buttons[currentBotSelectionY()][currentBotSelectionX()].setText("O");
                 currentRound.switchPlayer();
             }
         });
-       
     }
     
     private void handleButtonClick(int row, int col) throws IOException {
@@ -83,18 +81,16 @@ public class GameScreenController implements Initializable {
             validateWinnerRound();
             
             currentRound.switchPlayer();
-            
+
             currentRound.getPlayer_Bot().getSelection().makeSelection();
             currentRound.makeMove(currentBotSelectionY(), currentBotSelectionX(), 2);
             buttons[currentBotSelectionY()][currentBotSelectionX()].setText("O");
             currentRound.printGrid();
-            
+
             validateRoundDraw();
             validateWinnerRound();
-
             
             currentRound.switchPlayer();
-                
         }
     }
 
@@ -131,7 +127,9 @@ public class GameScreenController implements Initializable {
             if(game.getRoundNum()<game.getNumberRounds()){
                 game.startNewRound();
                 currentRound = game.getRounds().get(game.getRounds().size()-1);
+                currentRound.startRound();
                 clearGrid();
+                System.out.println("Empate");
             }else{
                 nextScreen();
                 System.out.println("Empataron");
@@ -144,11 +142,21 @@ public class GameScreenController implements Initializable {
             System.out.println(currentRound.isPlayerTurn()  ? "Jugador gana!" : "Bot gana!");
             if(game.getRoundNum()<game.getNumberRounds()){
                 game.startNewRound();
+                currentRound.startRound();
                 currentRound = game.getRounds().get(game.getRounds().size()-1);
-                clearGrid();                    
+                clearGrid();
+                System.out.println("Next Round");
             }else{
                 nextScreen();
-                System.out.println("Ganaron");
+                System.out.println("Ganador: ");
+                if(false){ //EMPATE
+                    System.out.println("");
+                }else if(false){ //GANA JUGADOR
+                    System.out.println("");
+                }else{ //GANA BOT
+                    System.out.println("");
+                }
+                
             }
         }
     }
