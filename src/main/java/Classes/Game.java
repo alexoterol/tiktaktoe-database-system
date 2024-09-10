@@ -55,6 +55,7 @@ public class Game {
         rounds.add(round);
         roundNum += 1;
         this.gridGame = new int[3][3];
+        player_User.addRounds();
     }
     
     public List<Round> getRounds() {  // ENCAPTULATE COLLECTION
@@ -65,7 +66,7 @@ public class Game {
         this.gridGame = new int[3][3];
         this.rounds.clear();
         this.numberRounds = 0;
-        this.roundNum = 1;
+        this.roundNum = 0;
     }
 
     public int getNumberRounds() {
@@ -79,6 +80,5 @@ public class Game {
     public int getRoundNum() {
         return roundNum;
     }
-    
     
 }

@@ -62,6 +62,7 @@ public class  Player{
 
     public void addGameWins() {
         this.gameWins = gameWins + 1;
+        this.score += 100;
     }
 
     public void addRounds() {
@@ -70,6 +71,7 @@ public class  Player{
 
     public void addRoundWins() {
         this.roundWins = roundWins + 1;
+        this.score += 10;
     }
 
     public Selection getSelection() {
@@ -80,7 +82,4 @@ public class  Player{
         this.selection = selection;
     }
     
-    public void addScore() {
-        // It depends
-    }
 }

@@ -36,6 +36,8 @@ public class GameScreenController implements Initializable {
     private Game game;
     private Round currentRound;
     Button[][] buttons = new Button[3][3];
+    private int winsBot;
+    private int winsUser;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -43,8 +45,9 @@ public class GameScreenController implements Initializable {
         game.startNewRound();
         startNewRound();
         userName.setText(game.getPlayer().getName());
-        userRoundsWon.setText(0+"");
-        botRoundsWon.setText(0+"");
+        winsBot = 0;
+        winsUser = 0;
+        setWinLabels();
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
                 Button button = new Button();
@@ -63,11 +66,7 @@ public class GameScreenController implements Initializable {
             }
         }
         Platform.runLater(() -> {
-            currentRound.startRound();
-            if(!currentRound.isPlayerTurn()){
-                buttons[currentBotSelectionY()][currentBotSelectionX()].setText("O");
-                currentRound.switchPlayer();
-            }
+            firstBotCase();
         });
     }
     
@@ -76,28 +75,35 @@ public class GameScreenController implements Initializable {
             currentRound.makeMove(row, col, 1);
             buttons[row][col].setText("X");
             currentRound.printGrid();
-            
-            validateRoundDraw();
-            validateWinnerRound();
-            
-            currentRound.switchPlayer();
 
-            currentRound.getPlayer_Bot().getSelection().makeSelection();
-            currentRound.makeMove(currentBotSelectionY(), currentBotSelectionX(), 2);
-            buttons[currentBotSelectionY()][currentBotSelectionX()].setText("O");
-            currentRound.printGrid();
-
-            validateRoundDraw();
             validateWinnerRound();
-            
+            if(!currentRound.checkWinner()){
+                validateRoundDraw();
+            }
+            if(!(currentRound.checkWinner() || currentRound.checkDraw())){
+                 if(currentRound.isPlayerTurn()){
+                    currentRound.switchPlayer();
+                    currentRound.getPlayer_Bot().getSelection().makeSelection();
+                    currentRound.makeMove(currentBotSelectionY(), currentBotSelectionX(), 2);
+                    buttons[currentBotSelectionY()][currentBotSelectionX()].setText("O");
+                    currentRound.printGrid();
+
+                    validateWinnerRound();
+                    validateRoundDraw();
+                    }
+                
+                }
+            }
+        if(!currentRound.isPlayerTurn()){
             currentRound.switchPlayer();
-        }
+        }      
     }
 
     private void startNewRound() {
         game.startNewRound();
         currentRound = game.getRounds().get(game.getRounds().size() - 1);
         clearGrid();
+        setWinLabels();
     }
 
     private void clearGrid() {
@@ -124,15 +130,13 @@ public class GameScreenController implements Initializable {
 
     private void validateRoundDraw() throws IOException{
         if (currentRound.checkDraw()){
-            if(game.getRoundNum()<game.getNumberRounds()){
-                game.startNewRound();
-                currentRound = game.getRounds().get(game.getRounds().size()-1);
-                currentRound.startRound();
-                clearGrid();
-                System.out.println("Empate");
+            if(game.getRoundNum()<=game.getNumberRounds()){
+                createRound();
+                System.out.println("Empate, nueva ronda");
             }else{
                 nextScreen();
                 System.out.println("Empataron");
+                game.getPlayer().addGame();
             }
         }
     }
@@ -140,23 +144,29 @@ public class GameScreenController implements Initializable {
     private void validateWinnerRound() throws IOException{
         if (currentRound.checkWinner()) {
             System.out.println(currentRound.isPlayerTurn()  ? "Jugador gana!" : "Bot gana!");
-            if(game.getRoundNum()<game.getNumberRounds()){
-                game.startNewRound();
-                currentRound.startRound();
-                currentRound = game.getRounds().get(game.getRounds().size()-1);
-                clearGrid();
-                System.out.println("Next Round");
+            if(currentRound.isPlayerTurn()){
+                System.out.println("11111111111111");
+                game.getPlayer().addRoundWins();
+                winsUser += 1;
+            }else if(!currentRound.isPlayerTurn()){
+                System.out.println("22222222222222222");
+                winsBot += 1;
+            }
+            if(game.getRoundNum()<=game.getNumberRounds()){
+                createRound();
+                System.out.println("Gana, Next Round");
             }else{
                 nextScreen();
-                System.out.println("Ganador: ");
-                if(false){ //EMPATE
-                    System.out.println("");
-                }else if(false){ //GANA JUGADOR
-                    System.out.println("");
-                }else{ //GANA BOT
-                    System.out.println("");
+                if(winsBot==winsUser){
+                    System.out.println("Fue un empate");
+                    
+                }else if(winsBot<winsUser){ 
+                    game.getPlayer().addGameWins();
+                    System.out.println("Ganaste "+ userName.getText());
+                }else{ 
+                    System.out.println("Gana el bot");
                 }
-                
+                game.getPlayer().addGame();
             }
         }
     }
@@ -167,5 +177,25 @@ public class GameScreenController implements Initializable {
     
     private int currentBotSelectionX(){
         return currentRound.getPlayer_Bot().getSelection().getX();
+    }
+    
+    private void firstBotCase(){
+        currentRound.startRound();
+        if(!currentRound.isPlayerTurn()){
+            buttons[currentBotSelectionY()][currentBotSelectionX()].setText("O");
+            currentRound.switchPlayer();
+        }
+    }
+    
+    private void setWinLabels(){
+        userRoundsWon.setText(winsUser+"");
+        botRoundsWon.setText(winsBot+"");
+    }
+    
+    private void createRound(){
+        if(game.getRoundNum()<=game.getNumberRounds()){
+            startNewRound();
+            firstBotCase();
+        }
     }
 }

@@ -27,7 +27,7 @@ public class HardSelection extends BotSelection{
             while (!validMove) {
                 x = rand.nextInt(3);
                 y = rand.nextInt(3);
-                if (grid[x][y] == 0) {
+                if (grid[y][x] == 0) {
                     validMove = true;
                 }
             }
@@ -35,52 +35,59 @@ public class HardSelection extends BotSelection{
     }
     
     private boolean blockPlayer(int[][] grid) {
-        // Revisar filas y columnas
-        for (int i = 0; i < 3; i++) {
-            // Revisar filas
-            if (grid[i][0] == 1 && grid[i][1] == 1 && grid[i][2] == 0) {
-                x = i; y = 2; return true;
-            }
-            if (grid[i][0] == 1 && grid[i][1] == 0 && grid[i][2] == 1) {
-                x = i; y = 1; return true;
-            }
-            if (grid[i][0] == 0 && grid[i][1] == 1 && grid[i][2] == 1) {
-                x = i; y = 0; return true;
-            }
-
-            // Revisar columnas
-            if (grid[0][i] == 1 && grid[1][i] == 1 && grid[2][i] == 0) {
-                x = 2; y = i; return true;
-            }
-            if (grid[0][i] == 1 && grid[1][i] == 0 && grid[2][i] == 1) {
-                x = 1; y = i; return true;
-            }
-            if (grid[0][i] == 0 && grid[1][i] == 1 && grid[2][i] == 1) {
-                x = 0; y = i; return true;
-            }
+    // Revisar filas, columnas y diagonales
+    for (int i = 0; i < 3; i++) {
+        if (checkRowForBlocking(grid, i) || checkColumnForBlocking(grid, i)) {
+            return true;
         }
-
-        // Revisar diagonales
-        if (grid[0][0] == 1 && grid[1][1] == 1 && grid[2][2] == 0) {
-            x = 2; y = 2; return true;
-        }
-        if (grid[0][0] == 1 && grid[1][1] == 0 && grid[2][2] == 1) {
-            x = 1; y = 1; return true;
-        }
-        if (grid[0][0] == 0 && grid[1][1] == 1 && grid[2][2] == 1) {
-            x = 0; y = 0; return true;
-        }
-
-        if (grid[0][2] == 1 && grid[1][1] == 1 && grid[2][0] == 0) {
-            x = 2; y = 0; return true;
-        }
-        if (grid[0][2] == 1 && grid[1][1] == 0 && grid[2][0] == 1) {
-            x = 1; y = 1; return true;
-        }
-        if (grid[0][2] == 0 && grid[1][1] == 1 && grid[2][0] == 1) {
-            x = 0; y = 2; return true;
-        }
-
-        return false;
     }
+
+    // Comprobación diagonal principal
+    if (checkDiagonalForBlocking(grid, true)) {
+        return true;
+    }
+
+    // Comprobación diagonal secundaria
+    if (checkDiagonalForBlocking(grid, false)) {
+        return true;
+    }
+
+    return false;
+}
+
+private boolean checkRowForBlocking(int[][] grid, int row) {
+    for (int col = 0; col < 3; col++) {
+        if (grid[row][col] == 0 && (grid[row][(col + 1) % 3] == 1 && grid[row][(col + 2) % 3] == 1)) {
+            y = row;
+            x = col;
+            return true;
+        }
+    }
+    return false;
+}
+
+private boolean checkColumnForBlocking(int[][] grid, int col) {
+    for (int row = 0; row < 3; row++) {
+        if (grid[row][col] == 0 && (grid[(row + 1) % 3][col] == 1 && grid[(row + 2) % 3][col] == 1)) {
+            y = row;
+            x = col;
+            return true;
+        }
+    }
+    return false;
+}
+
+private boolean checkDiagonalForBlocking(int[][] grid, boolean isMainDiagonal) {
+    int[] indices = isMainDiagonal ? new int[]{0, 1, 2} : new int[]{2, 1, 0};
+    for (int i = 0; i < 3; i++) {
+        int row = isMainDiagonal ? indices[i] : indices[i];
+        int col = indices[i];
+        if (grid[row][col] == 0 && (grid[indices[(i + 1) % 3]][indices[(i + 1) % 3]] == 1 && grid[indices[(i + 2) % 3]][indices[(i + 2) % 3]] == 1)) {
+            y = row;
+            x = col;
+            return true;
+        }
+    }
+    return false;
+}
 }
