@@ -58,7 +58,6 @@
                         <Label stylesheets="@../../../../styles/difficultyselecter.css" text="Select Difficulty" />
                         <Button alignment="CENTER" mnemonicParsing="false" onAction="#selectNormalDiff" stylesheets="@../../../../styles/difficultyselecter.css" text="Normal" />
                         <Button mnemonicParsing="false" onAction="#selectHardDiff" stylesheets="@../../../../styles/difficultyselecter.css" text="Hard" />
-                        <Button mnemonicParsing="false" onAction="#selectIADiff" stylesheets="@../../../../styles/difficultyselecter.css" text="AI Mastery" />
                      </children>
                      <opaqueInsets>
                         <Insets />

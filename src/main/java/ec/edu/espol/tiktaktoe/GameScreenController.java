@@ -42,7 +42,6 @@ public class GameScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         game = Game.getInstance();
-        game.startNewRound();
         startNewRound();
         userName.setText(game.getPlayer().getName());
         winsBot = 0;
@@ -137,6 +136,7 @@ public class GameScreenController implements Initializable {
                 nextScreen();
                 System.out.println("Empataron");
                 game.getPlayer().addGame();
+                game.resetGame();
             }
         }
     }
@@ -152,7 +152,7 @@ public class GameScreenController implements Initializable {
                 System.out.println("22222222222222222");
                 winsBot += 1;
             }
-            if(game.getRoundNum()<=game.getNumberRounds()){
+            if(game.getRoundNum()<game.getNumberRounds()){
                 createRound();
                 System.out.println("Gana, Next Round");
             }else{
@@ -167,6 +167,7 @@ public class GameScreenController implements Initializable {
                     System.out.println("Gana el bot");
                 }
                 game.getPlayer().addGame();
+                game.resetGame();
             }
         }
     }
@@ -193,7 +194,7 @@ public class GameScreenController implements Initializable {
     }
     
     private void createRound(){
-        if(game.getRoundNum()<=game.getNumberRounds()){
+        if(game.getRoundNum()<game.getNumberRounds()){
             startNewRound();
             firstBotCase();
         }

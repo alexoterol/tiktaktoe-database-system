@@ -8,15 +8,13 @@ import Classes.Game;
 import Classes.Player;
 import Classes.Selection.BotSelection;
 import Classes.Selection.HardSelection;
-import Classes.Selection.IASelection;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 
 /**
  * FXML Controller class
@@ -72,12 +70,6 @@ public class DifficultySelecterController implements Initializable {
         
     }
 
-    @FXML
-    private void selectIADiff() throws IOException {
-        Game.getInstance().setBot(new IASelection(0,0));
-        Game.getInstance().setNumberRounds(Integer.parseInt(numberRounds.getText()));
-        App.setRoot("GameScreen");
-    }
 
     @FXML
     private void lessRounds() {
