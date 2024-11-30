@@ -4,84 +4,51 @@
  */
 package Classes;
 
-import java.util.Random;
-import java.util.Scanner;
-import javafx.application.Platform;
-
 /**
  *
  * @author alexo
  */
 public class Round {
-    private Player currentPlayer;
-    private Player player_User;
-    private Player player_Bot;
-    
-    public Round(Player player_User, Player player_Bot) {
-        this.player_User = player_User;
-        this.player_Bot = player_Bot;
-        this.currentPlayer = new Random().nextBoolean() ? player_User : player_Bot;
-        }
-    
-    public boolean makeMove(int x, int y, int player) {
-        if (Game.getInstance().getGridGame()[x][y] == 0) {
-            Game.getInstance().getGridGame()[x][y] = player;
-            return true;
-        }
-        return false;
-    }
-    
-    public void switchPlayer() {
-        currentPlayer = (currentPlayer == player_User) ? player_Bot : player_User;
-    }
-    public boolean checkWinner() {
-        for (int i = 0; i < 3; i++) {
-            if ((Game.getInstance().getGridGame()[i][0] == Game.getInstance().getGridGame()[i][1] && Game.getInstance().getGridGame()[i][1] == Game.getInstance().getGridGame()[i][2] && Game.getInstance().getGridGame()[i][0] != 0) ||
-                (Game.getInstance().getGridGame()[0][i] == Game.getInstance().getGridGame()[1][i] && Game.getInstance().getGridGame()[1][i] == Game.getInstance().getGridGame()[2][i] && Game.getInstance().getGridGame()[0][i] != 0)) {
-                return true;
-            }
-        }
-        if ((Game.getInstance().getGridGame()[0][0] == Game.getInstance().getGridGame()[1][1] && Game.getInstance().getGridGame()[1][1] == Game.getInstance().getGridGame()[2][2] && Game.getInstance().getGridGame()[0][0] != 0) ||
-            (Game.getInstance().getGridGame()[0][2] == Game.getInstance().getGridGame()[1][1] && Game.getInstance().getGridGame()[1][1] == Game.getInstance().getGridGame()[2][0] && Game.getInstance().getGridGame()[0][2] != 0)) {
-            return true;
-        }
-        return false;
-    }
-    public boolean checkDraw() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (Game.getInstance().getGridGame()[i][j] == 0) return false;
-            }
-        }
-        return true;
-    }
-    public void printGrid() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (Game.getInstance().getGridGame()[i][j] == 0) {
-                    System.out.print("- ");
-                } else if (Game.getInstance().getGridGame()[i][j] == 1) {
-                    System.out.print("X ");
-                } else {
-                    System.out.print("O ");
-                }
-            }
-            System.out.println();
-        }
-    }    
+    private Player player1; // Jugador 1
+    private Player player2; // Jugador 2
+    private Player winner;  // Ganador de la ronda (puede ser null)
+    private boolean isDraw; // Indica si hubo empate
 
-    public void startRound() {
-        if(!isPlayerTurn()){
-            player_Bot.getSelection().makeSelection();
-            makeMove(player_Bot.getSelection().getY(), player_Bot.getSelection().getX(), 2);
-        }
-        printGrid();
+    public Round(Player player1, Player player2) {
+        this.player1 = player1;
+        this.player2 = player2;
+        this.isDraw = false; // Por defecto, no hay empate
     }
 
-    public Player getPlayer_Bot() {
-        return player_Bot;
+    public void playRound() {
+        Game game = Game.getInstance();
+        Grid grid = game.getGrid();
+        
+        // Simulación de lógica para determinar ganador (puedes agregar interacción real)
+        if (grid.checkWinner(player1.getSymbol())) {
+            this.winner = player1;
+        } else if (grid.checkWinner(player2.getSymbol())) {
+            this.winner = player2;
+        } else if (grid.isDraw()) {
+            this.isDraw = true;
+        }
     }
-    public boolean isPlayerTurn(){
-        return currentPlayer == player_User;
+
+    public Player getWinner() {
+        return winner;
+    }
+
+    public boolean isDraw() {
+        return isDraw;
+    }
+
+    @Override
+    public String toString() {
+        if (winner != null) {
+            return "Round winner: " + winner.getName();
+        } else if (isDraw) {
+            return "Round ended in a draw.";
+        }
+        return "Round in progress.";
     }
 }
